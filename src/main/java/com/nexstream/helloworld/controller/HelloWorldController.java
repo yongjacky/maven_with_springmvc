@@ -3,8 +3,6 @@ package com.nexstream.helloworld.controller;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +19,7 @@ public class HelloWorldController {
 			@RequestParam Map<String, String> requestparam
 			) {
 		System.out.println("in controller");
+		System.out.println("changes 1");
 		
 		String name = requestparam.get("name");
 		String message2 = requestparam.get("message2");
