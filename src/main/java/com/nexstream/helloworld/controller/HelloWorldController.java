@@ -19,7 +19,7 @@ public class HelloWorldController {
 			@RequestParam Map<String, String> requestparam
 			) {
 		System.out.println("in controller");
-		System.out.println("changes 1");
+		System.out.println("changes 2");
 		
 		String name = requestparam.get("name");
 		String message2 = requestparam.get("message2");
