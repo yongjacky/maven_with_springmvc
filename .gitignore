@@ -1,2 +1,12 @@
 /target/
 .settings
+build
+.DS_Store
+**/.DS_Store
+/bin/
+*.class
+*.jar
+*.war
+*.ear
+.classpath
+.project
