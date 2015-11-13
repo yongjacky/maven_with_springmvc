@@ -11,6 +11,12 @@
 		<a href = "hello?name=Eric&message2=try2&message4=try4">link here</a>
 		<br>
 		<a href = "bello?message4=try4">link2 here</a>
+		<br>
+		<a href = "getEmployee?">getEmployee here</a>
+		<br>
+		<a href = "getEmployees?">getEmployees here</a>
+		<br>
+		<a href = "getEmployeesObject?">getEmployeesObject here</a>
 	</h3>
 </body>
 </html>
