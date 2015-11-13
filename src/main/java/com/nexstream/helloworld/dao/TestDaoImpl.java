@@ -1,5 +1,4 @@
 package com.nexstream.helloworld.dao;
-
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,31 +7,31 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import com.nexstream.helloworld.entity.TableTestEntity;
+import com.nexstream.helloworld.entity.Test;
 
-@Repository(TableTestIDaoImpl.beanName)
-public class TableTestIDaoImpl implements TableTestInterface{
+@Repository(TestDaoImpl.beanName)
+public class TestDaoImpl implements TestDao{
 
 	@Resource
 	private SessionFactory sessionFactory;
 	
-	public List<TableTestEntity> geTests()throws Exception{
+	public List<Test> geTests()throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();
 		
 		@SuppressWarnings("unchecked")
-		List<TableTestEntity> tests = session.createQuery("from Test").list();
+		List<Test> tests = session.createQuery("from Test").list();
 		
 		return tests;
 	}
 	
-	public void saveOrUpdate(TableTestEntity test)throws Exception{
+	public void saveOrUpdate(Test test)throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();
 		session.merge(test);
 	}
 	
-	public TableTestEntity getTest(int id)throws Exception{
+	public Test getTest(Long id)throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();
-		TableTestEntity test = (TableTestEntity) session.get(TableTestEntity.class, id);
+		Test test = (Test) session.get(Test.class, id);
 		return test;
 	}
 }

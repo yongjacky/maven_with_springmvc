@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nexstream.helloworld.domains.BaseResp;
 import com.nexstream.helloworld.domains.Employee;
 import com.nexstream.helloworld.domains.Employee.Children;
-import com.nexstream.helloworld.entity.TableTestEntity;
-import com.nexstream.helloworld.service.TableTestService;
+import com.nexstream.helloworld.entity.Test;
+import com.nexstream.helloworld.service.TestService;
 
 @RestController
 public class RestSample {
 	
 	@Resource
-	private TableTestService testService;
+	private TestService testService;
 
 	@RequestMapping(value="/getEmployee", method=RequestMethod.GET)
 	@ResponseBody
@@ -90,19 +91,19 @@ public class RestSample {
 	//-----------database------------------
 	@RequestMapping(value="/getTests", method=RequestMethod.GET)
 	@ResponseBody
-	public List<TableTestEntity> geTests()throws Exception{
+	public List<Test> geTests()throws Exception{
 		return testService.geTests();
 	}
 	
 	@RequestMapping(value="/getTest/{id}", method=RequestMethod.GET)
 	@ResponseBody
-	public TableTestEntity geTestById(@PathVariable int id)throws Exception{
+	public Test geTestById(@PathVariable Long id)throws Exception{
 		return testService.getTest(id);
 	}
 	
-	/*@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
+	@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResp saveTest(@RequestBody TableTestEntity test)throws Exception{
+	public BaseResp saveTest(@RequestBody Test test)throws Exception{
 		testService.saveOrUpdate(test);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
@@ -112,12 +113,12 @@ public class RestSample {
 	
 	@RequestMapping(value="/updateTest/{id}", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResp saveTest(@PathVariable int id, @RequestBody TableTestEntity test)throws Exception{
+	public BaseResp saveTest(@PathVariable Long id, @RequestBody Test test)throws Exception{
 		test.setId(id);
 		testService.saveOrUpdate(test);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
 		resp.setMessage("New Test has been update successfully");
 		return resp;
-	}*/
+	}
 }

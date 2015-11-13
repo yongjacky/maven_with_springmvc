@@ -8,31 +8,31 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TableTest")
-public class TableTestEntity {
+@Table(name="test")
+public class Test {
 
 	@Id
-    @Column(name="ID")
+    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int ID;
+    private Long id;
 	
-	@Column(name="name")
-	private String name;
+	@Column(name="comments")
+	private String comments;
 
-	public int getId() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(int id) {
-		this.ID = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getComments() {
-		return name;
+		return comments;
 	}
 
-	public void setComments(String name) {
-		this.name = name;
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 	
 	
