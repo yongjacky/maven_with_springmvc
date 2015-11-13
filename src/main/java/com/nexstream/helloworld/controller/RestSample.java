@@ -3,6 +3,10 @@ package com.nexstream.helloworld.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,9 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nexstream.helloworld.domains.Employee;
 import com.nexstream.helloworld.domains.Employee.Children;
+import com.nexstream.helloworld.entity.TableTestEntity;
+import com.nexstream.helloworld.service.TableTestService;
 
 @RestController
 public class RestSample {
+	
+	@Resource
+	private TableTestService testService;
 
 	@RequestMapping(value="/getEmployee", method=RequestMethod.GET)
 	@ResponseBody
@@ -59,7 +68,6 @@ public class RestSample {
 	public List<Employee> getEmployeesChild(){
 		
 		List<Employee> employees = new ArrayList<Employee>();
-		//List<Children> childrens = new ArrayList<Employee.Children>();
 		for(int i = 0; i<3;i++)
 		{
 			Employee employee = new Employee();
@@ -78,4 +86,38 @@ public class RestSample {
 		
 		return employees;
 	}
+	
+	//-----------database------------------
+	@RequestMapping(value="/getTests", method=RequestMethod.GET)
+	@ResponseBody
+	public List<TableTestEntity> geTests()throws Exception{
+		return testService.geTests();
+	}
+	
+	@RequestMapping(value="/getTest/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public TableTestEntity geTestById(@PathVariable int id)throws Exception{
+		return testService.getTest(id);
+	}
+	
+	/*@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
+	@ResponseBody
+	public BaseResp saveTest(@RequestBody TableTestEntity test)throws Exception{
+		testService.saveOrUpdate(test);
+		BaseResp resp = new BaseResp();
+		resp.setCode("200");
+		resp.setMessage("New Test has been added successfully");
+		return resp;
+	}
+	
+	@RequestMapping(value="/updateTest/{id}", method=RequestMethod.POST)
+	@ResponseBody
+	public BaseResp saveTest(@PathVariable int id, @RequestBody TableTestEntity test)throws Exception{
+		test.setId(id);
+		testService.saveOrUpdate(test);
+		BaseResp resp = new BaseResp();
+		resp.setCode("200");
+		resp.setMessage("New Test has been update successfully");
+		return resp;
+	}*/
 }

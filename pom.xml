@@ -10,6 +10,9 @@
   
   <properties>
   			<spring.version>4.0.1.RELEASE</spring.version>
+  			<hibernate.version>4.3.5.Final</hibernate.version>
+  			<mysql-connector-java.version>5.1.31</mysql-connector-java.version>
+  			<org.aspectj-version>1.7.4</org.aspectj-version>
   </properties>
   
   <dependencies>
@@ -44,9 +47,51 @@
 		   <artifactId>jackson-mapper-asl</artifactId>
 		   <version>1.9.13</version>
 	</dependency>
+	
+	<!-- Hibernate -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate.version}</version>
+    </dependency>
+         
+    <!-- Apache Commons DBCP -->
+    <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.4</version>
+    </dependency>
     
+    <!-- Spring ORM -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    
+    <!-- AspectJ -->
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+        <version>${org.aspectj-version}</version>
+    </dependency>
+    <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+    
+    <dependency>
+	    <groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	    <version>${mysql-connector-java.version}</version>
+    </dependency>
   </dependencies>
-  
   
   <build>
     <finalName>HelloWorld</finalName>
