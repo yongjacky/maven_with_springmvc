@@ -17,6 +17,8 @@
 		<a href = "getEmployees?">getEmployees here</a>
 		<br>
 		<a href = "getEmployeesObject?">getEmployeesObject here</a>
+		<br>
+		<a href = "getEmployeesChild?">getEmployeesChild here</a>
 	</h3>
 </body>
 </html>
