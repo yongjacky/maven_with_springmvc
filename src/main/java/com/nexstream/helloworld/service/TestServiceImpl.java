@@ -29,4 +29,9 @@ public class TestServiceImpl implements TestService{
 	public Test getTest(Long id)throws Exception{
 		return testDao.getTest(id);
 	}
+	
+	@Transactional
+	public void deleteTest(Long id)throws Exception{
+		testDao.deleteTest(id);
+	}
 }

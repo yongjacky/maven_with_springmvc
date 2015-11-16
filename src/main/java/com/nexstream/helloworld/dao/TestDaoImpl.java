@@ -34,4 +34,12 @@ public class TestDaoImpl implements TestDao{
 		Test test = (Test) session.get(Test.class, id);
 		return test;
 	}
+	
+	public void deleteTest(Long id)throws Exception{
+		Session session = this.sessionFactory.getCurrentSession();
+		Test test = (Test) session.get(Test.class, id);
+		
+		if (test!=null)
+			session.delete(test);
+	}
 }

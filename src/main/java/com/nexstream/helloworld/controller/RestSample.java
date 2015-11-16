@@ -114,11 +114,25 @@ public class RestSample {
 	@RequestMapping(value="/updateTest/{id}", method=RequestMethod.POST)
 	@ResponseBody
 	public BaseResp saveTest(@PathVariable Long id, @RequestBody Test test)throws Exception{
-		test.setId(id);
+		if(testService.getTest(id)!=null)
+			test.setId(id);
 		testService.saveOrUpdate(test);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("New Test has been update successfully");
+		if(testService.getTest(id)!=null)
+			resp.setMessage("New Test has been update successfully");
+		else
+			resp.setMessage("New Test has been save successfully");
+		return resp;
+	}
+	
+	@RequestMapping(value="/deleteTest/{id}", method=RequestMethod.GET)
+	@ResponseBody
+	public BaseResp deleteTest(@PathVariable Long id)throws Exception{
+		testService.deleteTest(id);
+		BaseResp resp = new BaseResp();
+		resp.setCode("200");
+		resp.setMessage("Test has been delete successfully");
 		return resp;
 	}
 }
