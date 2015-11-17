@@ -34,4 +34,9 @@ public class TestServiceImpl implements TestService{
 	public void deleteTest(Long id)throws Exception{
 		testDao.deleteTest(id);
 	}
+	
+	@Transactional
+	public void deleteAllTests()throws Exception{
+		testDao.deleteAllTests();
+	}
 }

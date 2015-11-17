@@ -1,5 +1,6 @@
 package com.nexstream.helloworld.dao;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.annotation.Resource;
 
@@ -41,5 +42,20 @@ public class TestDaoImpl implements TestDao{
 		
 		if (test!=null)
 			session.delete(test);
+	}
+	
+	public void deleteAllTests()throws Exception{
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		@SuppressWarnings("unchecked")
+		List<Test> tests = session.createQuery("from Test").list();
+		ListIterator<Test> iter = tests.listIterator();
+		while(iter.hasNext()){
+			Test testtemp = iter.next();
+			Long idloop = testtemp.getId();
+			Test test = (Test) session.get(Test.class, idloop);
+			if (test!=null)
+				session.delete(test);
+		}
 	}
 }

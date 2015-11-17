@@ -136,13 +136,24 @@ public class RestSample {
 		return resp;
 	}
 	
-	@RequestMapping(value="/deleteTest/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/deleteTest", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResp deleteTest(@PathVariable Long id)throws Exception{
+	public BaseResp deleteTest(@RequestBody Test test)throws Exception{
+		Long id = test.getId();
 		testService.deleteTest(id);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
 		resp.setMessage("Test has been delete successfully");
+		return resp;
+	}
+	
+	@RequestMapping(value="/deleteAllTests", method=RequestMethod.GET)
+	@ResponseBody
+	public BaseResp deleteAllTests()throws Exception{
+		testService.deleteAllTests();
+		BaseResp resp = new BaseResp();
+		resp.setCode("200");
+		resp.setMessage("All Test has been delete successfully");
 		return resp;
 	}
 }

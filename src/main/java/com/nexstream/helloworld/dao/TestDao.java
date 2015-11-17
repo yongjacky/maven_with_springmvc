@@ -9,4 +9,5 @@ public interface TestDao {
 	public void saveOrUpdate(Test test)throws Exception;
 	public Test getTest(Long id)throws Exception;
 	public void deleteTest(Long id)throws Exception;
+	public void deleteAllTests()throws Exception;
 }
