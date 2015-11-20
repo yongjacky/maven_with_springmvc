@@ -116,16 +116,13 @@ public class Test {
 	@Transient
 	public String getInputDate() {
 		if (inputDate==null) {
-			//Date date = getDate();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			try {
 				Date dateformat = df.parse(String.valueOf(getDate()));
 				inputDate = df.format(dateformat);
 			} catch (ParseException e) {
-				//e.printStackTrace();
 				System.out.println("date cannot be parse");
 			}
-			//inputDate = String.valueOf(getDate());
 			
 		}
 		return inputDate;
