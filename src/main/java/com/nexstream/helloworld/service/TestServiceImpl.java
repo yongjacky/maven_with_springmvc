@@ -39,4 +39,9 @@ public class TestServiceImpl implements TestService{
 	public void deleteAllTests()throws Exception{
 		testDao.deleteAllTests();
 	}
+	
+	@Transactional
+	public void saveOrUpdateAllTests(List<Test> tests)throws Exception{
+		testDao.saveOrUpdateAllTests(tests);
+	}
 }

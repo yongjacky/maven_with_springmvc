@@ -1,7 +1,11 @@
 package com.nexstream.helloworld.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.annotation.Resource;
 
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nexstream.helloworld.domains.BaseResp;
 import com.nexstream.helloworld.domains.Employee;
 import com.nexstream.helloworld.domains.Employee.Children;
+import com.nexstream.helloworld.domains.ErrorResp;
 import com.nexstream.helloworld.entity.Test;
 import com.nexstream.helloworld.service.TestService;
 
@@ -101,9 +106,122 @@ public class RestSample {
 		return testService.getTest(id);
 	}
 	
+	@SuppressWarnings("deprecation")
+	private Boolean validateType(String value, Object type){
+		Boolean isValid = true;
+		
+		try{
+			if (type instanceof Integer){
+				Integer.parseInt(value);
+				return isValid;
+			}
+			if(type instanceof Double){
+				Double.parseDouble(value);
+				return isValid;
+			}
+			if(type instanceof Date){
+				Date.parse(value);
+				return isValid;
+			}
+		}catch(Exception ex){
+			isValid = false;
+		}
+		return isValid;
+	}
+
+	//@SuppressWarnings("deprecation")
 	@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
 	@ResponseBody
-	public BaseResp saveTest(@RequestBody Test test)throws Exception{
+	//public Object saveTest(@RequestBody Object testObj)throws Exception{
+	public Object saveTest(@RequestBody Test test)throws Exception{
+	
+			
+		/*String testString = testObj.toString();
+		System.out.println("string:"+testString);
+		String delimit = "(?<==).*?(?=,|})";
+		String[] stringArray = testString.split(delimit);
+		for(String splitStr : stringArray)
+		{
+			System.out.println("split : "+splitStr);
+		}*/
+		//Test test = new Test();
+		
+		
+		
+		
+		
+		
+		String commentField = test.getComments();
+		//Object numberField = test.getNumber();
+		//Double dotnumField = test.getDotnum();
+		//Date dateField = test.getDate();
+		
+		ErrorResp errorResp = new ErrorResp();
+		errorResp.setCode("500");			
+		
+		if (commentField==null) 
+			commentField="";	
+		
+		if (commentField.equalsIgnoreCase("")){
+			errorResp.setMessage("Comment field is require!");
+			return errorResp;
+		}
+		
+		String inputNumber = test.getInputNumber();
+		if (inputNumber==null) 
+			inputNumber="";
+		
+		if (inputNumber.equalsIgnoreCase("")){
+			errorResp.setMessage("number field is require!");
+			return errorResp;
+		}
+		
+		if (validateType(test.getInputNumber(), new Integer(0))){
+			test.setNumber(Integer.parseInt(test.getInputNumber()));
+		}else {
+			errorResp.setMessage("Invalid number value specified!");
+			return errorResp;
+		}
+		
+		String inputDotnum = test.getInputDotnum();
+		if (inputDotnum == null)
+			inputDotnum = "";
+		
+		if(inputDotnum.equalsIgnoreCase("")){
+			errorResp.setMessage("decimal number field is require!");
+			return errorResp;
+		}
+		
+		if(validateType(inputDotnum, new Double(0)))
+			test.setDotnum(Double.parseDouble(inputDotnum));
+		else{
+			errorResp.setMessage("Invalid dotnum value specified!");
+			return errorResp;
+		}
+		
+		String inputDate = test.getInputDate();
+		if (inputDate == null)
+			inputDate="";
+		
+		if(inputDate.equalsIgnoreCase("")){
+			errorResp.setMessage("date field is require!");	
+			return errorResp;
+		}
+		
+		if(validateType(inputDate, null)){
+			Date date = null;
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+				date = df.parse(inputDate);
+				test.setDate(date);
+			}catch(ParseException e){
+				errorResp.setMessage("Invalid date value specified!(yyyy-MM-dd)");
+				return errorResp;
+			}
+		}
+		
+		
+		
 		testService.saveOrUpdate(test);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
@@ -129,6 +247,7 @@ public class RestSample {
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
 		long checkid = test.getId();
+				
 		if(testService.getTest(checkid)!=null)
 			resp.setMessage("New Test has been update successfully");
 		else
@@ -154,6 +273,26 @@ public class RestSample {
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
 		resp.setMessage("All Test has been delete successfully");
+		return resp;
+	}
+	
+	@RequestMapping(value="/saveOrUpdateAllTests", method=RequestMethod.POST)
+	@ResponseBody
+	public BaseResp saveOrUpdateAllTests(@RequestBody List<Test> tests)throws Exception{
+		//System.out.println(tests);
+		//testService.saveOrUpdateAllTests(tests);
+		BaseResp resp = new BaseResp();
+		resp.setCode("200");
+		ListIterator<Test> iter = tests.listIterator();
+		while(iter.hasNext()){
+			Test testtemp = iter.next();
+			Long checkidloop = testtemp.getId();
+			if(testService.getTest(checkidloop)!=null)
+				resp.setMessage("New Test has been update successfully");
+			else
+				resp.setMessage("New Test has been save successfully");
+		}
+		
 		return resp;
 	}
 }

@@ -11,4 +11,5 @@ public interface TestService {
 	public Test getTest(Long id)throws Exception;
 	public void deleteTest(Long id)throws Exception;
 	public void deleteAllTests()throws Exception;
+	public void saveOrUpdateAllTests(List<Test> tests)throws Exception;
 }

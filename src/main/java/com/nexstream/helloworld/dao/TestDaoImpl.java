@@ -21,6 +21,10 @@ public class TestDaoImpl implements TestDao{
 		
 		@SuppressWarnings("unchecked")
 		List<Test> tests = session.createQuery("from Test").list();
+		ListIterator<Test> iter = tests.listIterator();
+		while(iter.hasNext()){
+			System.out.println(iter.next());
+		}
 		
 		return tests;
 	}
@@ -56,6 +60,16 @@ public class TestDaoImpl implements TestDao{
 			Test test = (Test) session.get(Test.class, idloop);
 			if (test!=null)
 				session.delete(test);
+		}
+	}
+	
+	public void saveOrUpdateAllTests(List<Test> tests)throws Exception{
+		Session session = this.sessionFactory.getCurrentSession();
+		ListIterator<Test> iter = tests.listIterator();
+		while(iter.hasNext()){
+			System.out.println(iter.next());
+			Test testtemp = iter.next();
+			session.merge(testtemp);
 		}
 	}
 }
