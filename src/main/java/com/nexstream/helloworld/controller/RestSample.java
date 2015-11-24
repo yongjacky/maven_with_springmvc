@@ -129,47 +129,29 @@ public class RestSample {
 		return isValid;
 	}
 
-	//@SuppressWarnings("deprecation")
+	
 	@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
 	@ResponseBody
-	//public Object saveTest(@RequestBody Object testObj)throws Exception{
 	public Object saveTest(@RequestBody Test test)throws Exception{
 	
 			
-		/*String testString = testObj.toString();
-		System.out.println("string:"+testString);
-		String delimit = "(?<==).*?(?=,|})";
-		String[] stringArray = testString.split(delimit);
-		for(String splitStr : stringArray)
-		{
-			System.out.println("split : "+splitStr);
-		}*/
-		//Test test = new Test();
-		
-		
-		
-		
-		
-		
 		String commentField = test.getComments();
-		//Object numberField = test.getNumber();
-		//Double dotnumField = test.getDotnum();
-		//Date dateField = test.getDate();
+		String inputDate = test.getInputDate();
+		String inputNumber = test.getInputNumber();
+		String inputDotnum = test.getInputDotnum();
+
 		
 		ErrorResp errorResp = new ErrorResp();
 		errorResp.setCode("500");			
 		
-		if (commentField==null) 
-			commentField="";	
+		if (commentField==null) commentField="";	
 		
 		if (commentField.equalsIgnoreCase("")){
 			errorResp.setMessage("Comment field is require!");
 			return errorResp;
 		}
 		
-		String inputNumber = test.getInputNumber();
-		if (inputNumber==null) 
-			inputNumber="";
+		if (inputNumber==null) inputNumber="";
 		
 		if (inputNumber.equalsIgnoreCase("")){
 			errorResp.setMessage("number field is require!");
@@ -183,9 +165,7 @@ public class RestSample {
 			return errorResp;
 		}
 		
-		String inputDotnum = test.getInputDotnum();
-		if (inputDotnum == null)
-			inputDotnum = "";
+		if (inputDotnum == null) inputDotnum = "";
 		
 		if(inputDotnum.equalsIgnoreCase("")){
 			errorResp.setMessage("decimal number field is require!");
@@ -199,9 +179,7 @@ public class RestSample {
 			return errorResp;
 		}
 		
-		String inputDate = test.getInputDate();
-		if (inputDate == null)
-			inputDate="";
+		if (inputDate == null) inputDate="";
 		
 		if(inputDate.equalsIgnoreCase("")){
 			errorResp.setMessage("date field is require!");	

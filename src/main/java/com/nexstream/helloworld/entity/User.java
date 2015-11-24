@@ -15,8 +15,8 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
-@Table(name="UserLogin")
-public class UserLogin {
+@Table(name="User")
+public class User {
 
 	@Id
     @Column(name="id")
@@ -29,10 +29,11 @@ public class UserLogin {
 	@Column(name="loginId")
 	private String loginId;
 	
-	@Column(name="loginPass")
-	private String loginPass;
+	@JsonIgnore
+	@Column(name="password")
+	private String password;
 	
-	@Column(name="authToken")
+	@Column(name="authenticationToken")
 	private String authToken;
 	
 	@JsonIgnore
@@ -60,16 +61,17 @@ public class UserLogin {
 		return loginId;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	@JsonIgnore
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public void setLoginId(String loginId) {
 		this.loginId = loginId;
-	}
-
-	public String getLoginPass() {
-		return loginPass;
-	}
-
-	public void setLoginPass(String loginPass) {
-		this.loginPass = loginPass;
 	}
 
 	public String getAuthToken() {
@@ -96,10 +98,12 @@ public class UserLogin {
 	@Transient
 	public String getInputTimeStamp() {
 		if (inputTimeStamp==null) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			try {
+				//System.out.println("getTimeStamp: "+String.valueOf(getTimeStamp()));
 				Date dateformat = df.parse(String.valueOf(getTimeStamp()));
 				inputTimeStamp = df.format(dateformat);
+				//System.out.println(inputTimeStamp);
 			} catch (ParseException e) {
 				System.out.println("date cannot be parse");
 			}
@@ -112,6 +116,22 @@ public class UserLogin {
 	public void setInputTimeStamp(String inputTimeStamp) {
 		this.inputTimeStamp = inputTimeStamp;
 	}
+	
+	@Transient
+	private String inputLoginPass;
 
+	@Transient
+	public String getInputLoginPass() {
+		if(inputLoginPass==null){
+			inputLoginPass = String.valueOf(getPassword());
+		}
+		return inputLoginPass;
+	}
+
+	@Transient
+	public void setInputLoginPass(String inputLoginPass) {
+		this.inputLoginPass = inputLoginPass;
+	}
+	
 	
 }
