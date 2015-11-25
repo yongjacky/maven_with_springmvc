@@ -12,6 +12,6 @@ public interface UserService {
 	public void deleteUser(Long id)throws Exception;
 	public void deleteAllUsers()throws Exception;
 	public void saveOrUpdateAllTests(List<User> tests)throws Exception;
-	public List<User> getUserPass(String userName)throws Exception;
+	public User getUserByLoginId(String loginId)throws Exception;
 	public User getUserLoginId(String userLoginId)throws Exception;
 }

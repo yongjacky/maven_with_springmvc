@@ -27,7 +27,7 @@ public class UserController {
 	@Resource
 	private UserService userService;
 	
-	//-----------database------------------
+	//-----------database------------------	
 	@RequestMapping(value="/getUsers", method=RequestMethod.GET)
 	@ResponseBody
 	public List<User> geTests()throws Exception{
@@ -69,7 +69,7 @@ public class UserController {
 		
 		ErrorResp errorResp = new ErrorResp();
 		errorResp.setCode("500");			
-		
+				
 		if (userNameField==null) userNameField="";	
 		
 		if (userNameField.equalsIgnoreCase("")){
@@ -147,9 +147,9 @@ public class UserController {
 		long checkid = user.getId();
 				
 		if(userService.getUser(checkid)!=null)
-			resp.setMessage("New UserLogin has been update successfully");
+			resp.setMessage("New User has been update successfully");
 		else
-			resp.setMessage("New UserLogin has been save successfully");
+			resp.setMessage("New User has been save successfully");
 		return resp;
 	}
 	
@@ -160,7 +160,7 @@ public class UserController {
 		userService.deleteUser(id);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("UserLogin has been delete successfully");
+		resp.setMessage("User has been delete successfully");
 		return resp;
 	}
 	
@@ -170,7 +170,7 @@ public class UserController {
 		userService.deleteAllUsers();
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("All UserLogin has been delete successfully");
+		resp.setMessage("All User has been delete successfully");
 		return resp;
 	}
 	
@@ -178,8 +178,6 @@ public class UserController {
 	@RequestMapping(value="/saveOrUpdateAllUser", method=RequestMethod.POST)
 	@ResponseBody
 	public BaseResp saveOrUpdateAllTests(@RequestBody List<User> users)throws Exception{
-		//System.out.println(tests);
-		//testService.saveOrUpdateAllTests(tests);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
 		ListIterator<User> iter = users.listIterator();
@@ -191,7 +189,6 @@ public class UserController {
 			else
 				resp.setMessage("New UserLogin has been save successfully");
 		}
-		
 		return resp;
 	}
 }

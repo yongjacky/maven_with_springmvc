@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Transactional
-	public List<User> getUserPass(String userName)throws Exception{
-		return userDao.getUserPass(userName);
+	public User getUserByLoginId(String loginId)throws Exception{
+		return userDao.getUserByLoginId(loginId);
 	}
 
 	@Transactional
@@ -60,5 +60,4 @@ public class UserServiceImpl implements UserService{
 		return userDao.getUserLoginId(userLoginId);
 		
 	}
-
 }

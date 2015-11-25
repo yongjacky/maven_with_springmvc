@@ -27,7 +27,6 @@ public class UserDaoImpl implements UserDao{
 		while(iter.hasNext()){
 			System.out.println(iter.next());
 		}
-		
 		return users;
 	}
 	
@@ -75,28 +74,21 @@ public class UserDaoImpl implements UserDao{
 		}
 	}
 	
-	public List<User> getUserPass(String userName)throws Exception{
+	public User getUserByLoginId(String loginId)throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();
-		//System.out.println("username: "+userName);
 		@SuppressWarnings("unchecked")
-		List<User> users = session.createQuery("FROM User us WHERE us.loginId = '" + userName +"'").list();
-		//List<UserLogin> tests = session.createQuery( "FROM UserLogin ul WHERE ul.loginId = 'login5'").list();
+		List<User> users = session.createQuery("FROM User us WHERE us.loginId = '" + loginId +"'").list();
 		
+		User user = null;
+		if (users.size()>0)
+			user = users.get(0);
 		
-		
-		ListIterator<User> iter = users.listIterator();
-		while(iter.hasNext()){
-			System.out.println(iter.next());
-		}
-
-		
-		return users;
+		return user;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public User getUserLoginId(String userLoginId)throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();
-		//User user = (User) session.get(User.class, userLoginId);
 		Criteria cr = session.createCriteria(User.class);
 		cr.add(Restrictions.eq("loginId", userLoginId));
 		List<User> results = cr.list();
