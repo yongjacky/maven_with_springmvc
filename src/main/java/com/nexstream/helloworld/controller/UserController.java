@@ -5,9 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +26,7 @@ import com.nexstream.helloworld.service.UserService;
 
 @RestController
 public class UserController {
+	ApplicationContext context = new ClassPathXmlApplicationContext("springModules.xml");
 	
 	@Resource
 	private UserService userService;
@@ -55,7 +59,6 @@ public class UserController {
 		}
 		return isValid;
 	}
-
 	
 	@RequestMapping(value="/saveNewUser", method=RequestMethod.POST)
 	@ResponseBody
@@ -73,7 +76,7 @@ public class UserController {
 		if (userNameField==null) userNameField="";	
 		
 		if (userNameField.equalsIgnoreCase("")){
-			errorResp.setMessage("User Name field is require!");
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"user name"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -81,7 +84,7 @@ public class UserController {
 		if (inputLoginId==null) inputLoginId="";
 		
 		if (inputLoginId.equalsIgnoreCase("")){
-			errorResp.setMessage("login id field is require!");
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"login id"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -94,14 +97,14 @@ public class UserController {
 		if (inputloginPass == null) inputloginPass = "";
 		
 		if(inputloginPass.equalsIgnoreCase("")){
-			errorResp.setMessage("login password field is require!");
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"password"}, Locale.US));
 			return errorResp;
 		}
 		
 		if (inputtimeStamp == null) inputtimeStamp="";
 		
 		if(inputtimeStamp.equalsIgnoreCase("")){
-			errorResp.setMessage("time stamp field is require!");	
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"time stamp"}, Locale.US));	
 			return errorResp;
 		}
 		
@@ -123,7 +126,7 @@ public class UserController {
 		userService.saveOrUpdate(user);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("New User has been added successfully");
+		resp.setMessage(context.getMessage("user.status", new Object[] {"add"}, Locale.US));
 		return resp;
 	}
 	
@@ -134,7 +137,7 @@ public class UserController {
 		userService.saveOrUpdate(user);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("New UserLogin has been update successfully");
+		resp.setMessage(context.getMessage("user.status", new Object[] {"update"}, Locale.US));
 		return resp;
 	}
 	
@@ -147,9 +150,9 @@ public class UserController {
 		long checkid = user.getId();
 				
 		if(userService.getUser(checkid)!=null)
-			resp.setMessage("New User has been update successfully");
+			resp.setMessage(context.getMessage("user.status", new Object[] {"update"}, Locale.US));
 		else
-			resp.setMessage("New User has been save successfully");
+			resp.setMessage(context.getMessage("user.status", new Object[] {"add"}, Locale.US));
 		return resp;
 	}
 	
@@ -160,7 +163,7 @@ public class UserController {
 		userService.deleteUser(id);
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("User has been delete successfully");
+		resp.setMessage(context.getMessage("user.status", new Object[] {"delete"}, Locale.US));
 		return resp;
 	}
 	
@@ -170,7 +173,7 @@ public class UserController {
 		userService.deleteAllUsers();
 		BaseResp resp = new BaseResp();
 		resp.setCode("200");
-		resp.setMessage("All User has been delete successfully");
+		resp.setMessage(context.getMessage("user.status", new Object[] {"delete all"}, Locale.US));
 		return resp;
 	}
 	

@@ -19,6 +19,7 @@
 		<beans:property name="basenames">
 			<beans:list>
 				<beans:value>appConfig</beans:value>
+				<beans:value>messages</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="useCodeAsDefaultMessage" value="true"></beans:property>

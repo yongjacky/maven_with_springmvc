@@ -3,8 +3,12 @@ package com.nexstream.helloworld.controller;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.annotation.Resource;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,13 +26,14 @@ import com.nexstream.helloworld.service.UserService;
 @RestController
 public class LoginAuthController {
 	SecureRandom sr = new SecureRandom();
-	
+	ApplicationContext context = new ClassPathXmlApplicationContext("springModules.xml");
+		
 	@Resource
 	private UserService userService;
 	
 		
 	//-----------database------------------
-	public String generatAndUpdateToken(User user) throws Exception{
+	private String generatAndUpdateToken(User user) throws Exception{
 		String generateToken = new BigInteger(130, sr).toString(32);
 		user.setAuthToken(generateToken);
 		Date date = new Date();
@@ -36,7 +41,15 @@ public class LoginAuthController {
 		userService.saveOrUpdate(user);
 		return generateToken;
 	}
+	
+	@RequestMapping(value="/messageDisplay", method=RequestMethod.POST)
+	@ResponseBody
+	public void messageDisplay()throws Exception{
+		String message = context.getMessage("empty.field", new Object[] {"login id"}, Locale.US);
+		System.out.println("message: "+message);
+	}
 
+	//check duplicate login
 	@RequestMapping(value="/userLogin", method=RequestMethod.POST)
 	@ResponseBody
 	public Object userLogin(@RequestBody LoginAuth login)throws Exception{
@@ -56,14 +69,14 @@ public class LoginAuthController {
 			userLoginId="";	
 		
 		if (userLoginId.equalsIgnoreCase("")){
-			errorResp.setMessage("login id field is require!");
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"login id"}, Locale.US));
 			return errorResp;
 		}
 		
 		if (userPassField==null) userPassField="";
 		
 		if (userPassField.equalsIgnoreCase("")){
-			errorResp.setMessage("login password field is require!");
+			errorResp.setMessage(context.getMessage("empty.field", new Object[] {"password"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -76,14 +89,14 @@ public class LoginAuthController {
 		User userDbTemp = null;
 		if (userDb!=null) userDbTemp = userDb;
 		else{
-			errorResp.setMessage("username is incorrect!");
+			errorResp.setMessage(context.getMessage("incorrect.field", new Object[] {"login id"}, Locale.US));
 			return errorResp;
 		}
 		
 		//compare input password with database password
 		if(userInputPassword.equalsIgnoreCase(userDbTemp.getPassword())) isLoginValid = true;
 		else{
-			errorResp.setMessage("password incorrect");
+			errorResp.setMessage(context.getMessage("incorrect.field", new Object[] {"password"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -92,10 +105,10 @@ public class LoginAuthController {
 			String generatedToken = generatAndUpdateToken(userDbTemp);			
 			login.setAuthenticationToken(generatedToken);
 			
-			resp.setMessage("login success");
+			resp.setMessage(context.getMessage("login.status", new Object[] {"successful"}, Locale.US));
 			return login;
 		}
-		resp.setMessage("login not success");
+		resp.setMessage(context.getMessage("login.status", new Object[] {"fail"}, Locale.US));
 		return resp;
 	}
 	
@@ -114,7 +127,7 @@ public class LoginAuthController {
 		
 		if (receiveToken==null) receiveToken="";
 		if(receiveToken.equalsIgnoreCase("")){
-			errorResp.setMessage("authentication token is missing");
+			errorResp.setMessage(context.getMessage("token.status", new Object[] {"missing"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -128,15 +141,16 @@ public class LoginAuthController {
 						
 			BaseResp resp = new BaseResp();
 			resp.setCode("200");
-			resp.setMessage("logout success");
+			resp.setMessage(context.getMessage("logout.status", new Object[] {"success"}, Locale.US));
 			return resp;
 			}
 		else{
-			errorResp.setMessage("authentication token is incorrect");
+			errorResp.setMessage(context.getMessage("token.status", new Object[] {"incorrect"}, Locale.US));
 			return errorResp;
 		}	
 	}
 	
+	//change the get id from database to get token
 	@RequestMapping(value="/userChangePassword", method=RequestMethod.POST)
 	@ResponseBody
 	public Object userChangePassword(@RequestBody LoginAuth changePass)throws Exception{
@@ -153,7 +167,7 @@ public class LoginAuthController {
 		
 		if (receiveToken==null) receiveToken="";
 		if(receiveToken.equalsIgnoreCase("")){
-			errorResp.setMessage("authentication token is missing");
+			errorResp.setMessage(context.getMessage("token.status", new Object[] {"missing"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -174,7 +188,7 @@ public class LoginAuthController {
 			return resp;
 			}
 		else{
-			errorResp.setMessage("authentication token is incorrect");
+			errorResp.setMessage(context.getMessage("token.status", new Object[] {"incorrect"}, Locale.US));
 			return errorResp;
 		}	
 	}
