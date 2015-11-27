@@ -1,0 +1,21 @@
+for upload image
+	URL:/uploadFile, method POST
+	pass in value using form-data
+	key:name 			value:filename1				type:text
+	key:loginId			value:loginid1				type:text
+	key:file			File:[upload image file]	type:file
+	
+	after upload will return a id of the image
+
+for display image
+	URL/displayFilePostResponse, method POST
+	pass in value using form-data
+	key:id				value:[id of image]			type:text
+	
+for delete image
+	URL/deleteFile, method POST
+	pass in value using form-data
+	key:id				value:[id of image]			type:text
+
+for message bundle
+	do by using ApplicationContext which get the message from resource folder
