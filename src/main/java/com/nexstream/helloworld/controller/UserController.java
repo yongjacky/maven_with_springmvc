@@ -23,6 +23,7 @@ import com.nexstream.helloworld.domains.BaseResp;
 import com.nexstream.helloworld.domains.ErrorResp;
 import com.nexstream.helloworld.entity.User;
 import com.nexstream.helloworld.service.UserService;
+import com.nexstream.helloworld.validateutils.ValidateDataType;
 
 @RestController
 public class UserController {
@@ -43,23 +44,7 @@ public class UserController {
 	public User geUserById(@PathVariable Long id)throws Exception{
 		return userService.getUser(id);
 	}
-	
-	//data type validation
-	@SuppressWarnings("deprecation")
-	private Boolean validateType(String value, Object type){
-		Boolean isValid = true;
 		
-		try{
-				if(type instanceof Date){
-				Date.parse(value);
-				return isValid;
-			}
-		}catch(Exception ex){
-			isValid = false;
-		}
-		return isValid;
-	}
-	
 	@RequestMapping(value="/saveNewUser", method=RequestMethod.POST)
 	@ResponseBody
 	public Object saveUser(@RequestBody User user)throws Exception{
@@ -89,7 +74,7 @@ public class UserController {
 		}
 		
 		if(userService.getUserLoginId(inputLoginId)!=null){
-			errorResp.setMessage("login id field is exist in database!");
+			errorResp.setMessage(context.getMessage("field.duplicate", new Object[] {"login id"}, Locale.US));
 			return errorResp;
 		}
 		
@@ -111,17 +96,22 @@ public class UserController {
 		Md5PasswordEncoder md5 = new Md5PasswordEncoder();		
 		user.setPassword(md5.encodePassword(inputloginPass, inputLoginId));
 		
-		if(validateType(inputtimeStamp, null)){
+		if(ValidateDataType.validateTimeStamp(inputtimeStamp, new Date())){
 			Date date = null;
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 			try{
 				date = df.parse(inputtimeStamp);
 				user.setTimeStamp(date);
 			}catch(ParseException e){
-				errorResp.setMessage("Invalid date value specified!(yyyy-MM-dd kk:mm:ss)");
+				errorResp.setMessage(context.getMessage("date.format.invalid", null, Locale.US));
 				return errorResp;
 			}
+		}		
+		else{
+			errorResp.setMessage(context.getMessage("date.format.invalid", null, Locale.US));
+			return errorResp;
 		}
+
 		
 		userService.saveOrUpdate(user);
 		BaseResp resp = new BaseResp();
@@ -188,9 +178,9 @@ public class UserController {
 			User userTemp = iter.next();
 			Long checkidloop = userTemp.getId();
 			if(userService.getUser(checkidloop)!=null)
-				resp.setMessage("New UserLogin has been update successfully");
+				resp.setMessage(context.getMessage("user.status", new Object[] {"update"}, Locale.US));
 			else
-				resp.setMessage("New UserLogin has been save successfully");
+				resp.setMessage(context.getMessage("user.status", new Object[] {"save"}, Locale.US));
 		}
 		return resp;
 	}

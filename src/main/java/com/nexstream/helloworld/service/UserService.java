@@ -14,4 +14,5 @@ public interface UserService {
 	public void saveOrUpdateAllTests(List<User> tests)throws Exception;
 	public User getUserByLoginId(String loginId)throws Exception;
 	public User getUserLoginId(String userLoginId)throws Exception;
+	public User getUserByAuthenticationToken(String authToken)throws Exception;
 }

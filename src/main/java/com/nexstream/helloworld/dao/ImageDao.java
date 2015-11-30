@@ -11,4 +11,5 @@ public interface ImageDao {
 	public Image getImage(Long id)throws Exception;
 	public void deleteImage(Long id)throws Exception;
 	public List<Image> getImagesByLoginId(String loginId)throws Exception;
+	public Image getImageByLoginIdAndId(String loginId, Long id) throws Exception;
 }

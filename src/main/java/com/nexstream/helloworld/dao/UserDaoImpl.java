@@ -86,6 +86,19 @@ public class UserDaoImpl implements UserDao{
 		return user;
 	}
 	
+	public User getUserByAuthenticationToken(String authToken)throws Exception{
+		Session session = this.sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<User> users = session.createQuery("FROM User us WHERE us.authenticationToken = '" + authToken +"'").list();
+		
+		User user = null;
+		if (users.size()>0)
+			user = users.get(0);
+		
+		return user;
+	}
+
+	
 	@SuppressWarnings("unchecked")
 	public User getUserLoginId(String userLoginId)throws Exception{
 		Session session = this.sessionFactory.getCurrentSession();

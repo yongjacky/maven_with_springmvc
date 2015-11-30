@@ -57,7 +57,11 @@ public class UserServiceImpl implements UserService{
 	
 	@Transactional
 	public User getUserLoginId(String userLoginId)throws Exception{
-		return userDao.getUserLoginId(userLoginId);
-		
+		return userDao.getUserLoginId(userLoginId);	
+	}
+	
+	@Transactional
+	public User getUserByAuthenticationToken(String authToken)throws Exception{
+		return userDao.getUserByAuthenticationToken(authToken);
 	}
 }

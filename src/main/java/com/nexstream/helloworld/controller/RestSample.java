@@ -22,12 +22,14 @@ import com.nexstream.helloworld.domains.Employee.Children;
 import com.nexstream.helloworld.domains.ErrorResp;
 import com.nexstream.helloworld.entity.Test;
 import com.nexstream.helloworld.service.TestService;
+import com.nexstream.helloworld.validateutils.ValidateDataType;
 
 @RestController
 public class RestSample {
 	
 	@Resource
 	private TestService testService;
+	//private ValidateDataType validateData;
 
 	@RequestMapping(value="/getEmployee", method=RequestMethod.GET)
 	@ResponseBody
@@ -106,30 +108,6 @@ public class RestSample {
 		return testService.getTest(id);
 	}
 	
-	@SuppressWarnings("deprecation")
-	private Boolean validateType(String value, Object type){
-		Boolean isValid = true;
-		
-		try{
-			if (type instanceof Integer){
-				Integer.parseInt(value);
-				return isValid;
-			}
-			if(type instanceof Double){
-				Double.parseDouble(value);
-				return isValid;
-			}
-			if(type instanceof Date){
-				Date.parse(value);
-				return isValid;
-			}
-		}catch(Exception ex){
-			isValid = false;
-		}
-		return isValid;
-	}
-
-	
 	@RequestMapping(value="/saveNewTest", method=RequestMethod.POST)
 	@ResponseBody
 	public Object saveTest(@RequestBody Test test)throws Exception{
@@ -158,7 +136,7 @@ public class RestSample {
 			return errorResp;
 		}
 		
-		if (validateType(test.getInputNumber(), new Integer(0))){
+		if (ValidateDataType.validateDataType(test.getInputNumber(), new Integer(0))){
 			test.setNumber(Integer.parseInt(test.getInputNumber()));
 		}else {
 			errorResp.setMessage("Invalid number value specified!");
@@ -172,7 +150,7 @@ public class RestSample {
 			return errorResp;
 		}
 		
-		if(validateType(inputDotnum, new Double(0)))
+		if(ValidateDataType.validateDataType(inputDotnum, new Double(0)))
 			test.setDotnum(Double.parseDouble(inputDotnum));
 		else{
 			errorResp.setMessage("Invalid dotnum value specified!");
@@ -186,7 +164,7 @@ public class RestSample {
 			return errorResp;
 		}
 		
-		if(validateType(inputDate, null)){
+		if(ValidateDataType.validateDataType(inputDate, new Date())){
 			Date date = null;
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			try{

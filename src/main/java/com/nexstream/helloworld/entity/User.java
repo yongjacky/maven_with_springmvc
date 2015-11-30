@@ -34,7 +34,7 @@ public class User {
 	private String password;
 	
 	@Column(name="authenticationToken")
-	private String authToken;
+	private String authenticationToken;
 	
 	@JsonIgnore
 	@Column(name="timeStamp")
@@ -75,11 +75,11 @@ public class User {
 	}
 
 	public String getAuthToken() {
-		return authToken;
+		return authenticationToken;
 	}
 
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public void setAuthToken(String authenticationToken) {
+		this.authenticationToken = authenticationToken;
 	}
 
 	public Date getTimeStamp() {

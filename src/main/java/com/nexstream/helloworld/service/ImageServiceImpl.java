@@ -40,4 +40,9 @@ public class ImageServiceImpl implements ImageService{
 	public List<Image> getImagesByLoginId(String loginId)throws Exception{
 		return imageDao.getImagesByLoginId(loginId);
 	}
+	
+	@Transactional
+	public Image getImageByLoginIdAndId(String loginId, Long id) throws Exception{
+		return imageDao.getImageByLoginIdAndId(loginId, id);
+	}
 }

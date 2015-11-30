@@ -68,4 +68,14 @@ public class ImageDaoImpl implements ImageDao {
 		}
 		return images;
 	}
+	
+	public Image getImageByLoginIdAndId(String loginId, Long id) throws Exception{
+		Session session = this.sessionFactory.getCurrentSession();
+		Image image = null;
+		@SuppressWarnings("unchecked")
+		List<Image> images = session.createQuery("FROM Image im WHERE im.loginId = '" + loginId +"'"+"AND im.id = "+id).list();
+		if (images.size()>0)
+			image = images.get(0);
+		return image;
+	}
 }
